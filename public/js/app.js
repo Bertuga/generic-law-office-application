@@ -3637,9 +3637,7 @@ var render = function() {
     _vm.error
       ? _c("div", { staticClass: "alert alert-danger" }, [
           _c("p", [
-            _vm._v(
-              "There was an error, unable to sign in with those credentials."
-            )
+            _vm._v("Houve um erro ao autenticar, verifique suas credenciais.")
           ])
         ])
       : _vm._e(),
@@ -3672,6 +3670,7 @@ var render = function() {
             attrs: {
               type: "email",
               id: "email",
+              name: "email",
               placeholder: "user@example.com",
               required: ""
             },
@@ -3688,7 +3687,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "password" } }, [_vm._v("Password")]),
+          _c("label", { attrs: { for: "password" } }, [_vm._v("Senha")]),
           _vm._v(" "),
           _c("input", {
             directives: [
@@ -3700,7 +3699,12 @@ var render = function() {
               }
             ],
             staticClass: "form-control",
-            attrs: { type: "password", id: "password", required: "" },
+            attrs: {
+              type: "password",
+              id: "password",
+              name: "password",
+              required: ""
+            },
             domProps: { value: _vm.password },
             on: {
               input: function($event) {
@@ -3713,11 +3717,11 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
-        _c(
-          "button",
-          { staticClass: "btn btn-default", attrs: { type: "submit" } },
-          [_vm._v("Sign in")]
-        )
+        _c("input", {
+          staticClass: "btn btn-default",
+          attrs: { type: "submit", value: "Entrar" }
+        }),
+        _vm._v("Entrar\n        ")
       ]
     )
   ])
