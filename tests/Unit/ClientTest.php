@@ -44,7 +44,9 @@ class ClientTest extends TestCase
         	'cep' => $this->faker->randomNumber(8),
         ];
 
-        print_r($data);
+        $client = \App\Cliente::create($data);
+
+        $this->assertDatabaseHas('clientes', ['nome' => $data['nome']]);
     }
 
     public function tearDown()
