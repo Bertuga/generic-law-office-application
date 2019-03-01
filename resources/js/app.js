@@ -11,6 +11,7 @@ axios.default.baseURL = 'http://localhost:8000/api'
 import App from './App.vue'
 import Home from '../views/Home'
 import Login from '../views/Login'
+import ChangePassword from '../views/ChangePassword'
 
 const router = new VueRouter({
 	mode: 'history',
@@ -30,6 +31,14 @@ const router = new VueRouter({
 		path: '/home',
 		name: 'home',
 		component: Home,
+		meta: {
+			auth: true
+		},
+	},
+	{
+		path: '/change-password',
+		name: 'change-password',
+		component: ChangePassword,
 		meta: {
 			auth: true
 		},

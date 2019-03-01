@@ -2,6 +2,7 @@
 	<div>
 		<p>
 			<router-link :to="{ name: 'home' }" v-if="$auth.check()">Home</router-link>
+			<router-link :to="{ name: 'change-password' }" v-if="$auth.check()">Alterar Senha</router-link>
 			<a href="#" @click.prevent="logout" v-if="$auth.check()">Logout</a>
 		</p>
 		<div class="container">
