@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use JWTAuth;
 
 class AuthController extends Controller
@@ -21,6 +24,24 @@ class AuthController extends Controller
 	            'status' => 'success'
 	        ])
 	        ->header('Authorization', $token);
+	}
+
+	public function changePassword(Request $request)
+	{
+		$user = User::find(Auth::user()->id);
+		if(Hash::check($request->input('old_password'), $user->password)) {
+			$user->password = bcrypt($request->input('new_password'));
+			$user->save();
+			return response([
+				'status' => 'success',
+			]);
+		} else {
+			return response([
+				'status' => 'error',
+				'error' => 'password.match.error',
+				'msg' => 'Senha antiga inválida.'
+			], 400);
+		}
 	}
 
 	public function user(Request $request)
