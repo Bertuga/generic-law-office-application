@@ -8,7 +8,7 @@ Vue.use(VueAxios, axios)
 
 axios.default.baseURL = 'http://localhost:8000/api'
 
-import App from './App'
+import App from './App.vue'
 import Home from '../views/Home'
 import Login from '../views/Login'
 
