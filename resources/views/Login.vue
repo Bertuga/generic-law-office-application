@@ -12,7 +12,7 @@
                 <label for="password">Senha</label>
                 <input type="password" id="password" name="password" class="form-control" v-model="password" required>
             </div>
-            <input type="submit" class="btn btn-default" value="Entrar"/>Entrar
+            <input type="submit" class="btn btn-default" value="Entrar"/>
         </form>
     </div>
 </template>
