@@ -41,12 +41,13 @@ class ClientTest extends TestCase
         	'bairro' => $this->faker->sentence,
         	'cidade' => $this->faker->city,
         	'estado' => $this->faker->stateAbbr,
-        	'cep' => $this->faker->randomNumber(8),
+            'cep' => $this->faker->randomNumber(8),
+        	'email' => $this->faker->email,
         ];
 
         $client = \App\Cliente::create($data);
 
-        $this->assertDatabaseHas('clientes', ['nome' => $data['nome']]);
+        $this->assertDatabaseHas('clientes', $data);
     }
 
     public function tearDown()
