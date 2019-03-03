@@ -1,10 +1,27 @@
 <template>
 	<div>
-		<p>
-			<router-link :to="{ name: 'home' }" v-if="$auth.check()">Home</router-link>
-			<router-link :to="{ name: 'change-password' }" v-if="$auth.check()">Alterar Senha</router-link>
-			<a href="#" @click.prevent="logout" v-if="$auth.check()">Logout</a>
-		</p>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+
+		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item">
+		        <router-link :to="{ name: 'home' }" v-if="$auth.check()" class="nav-link">Home</router-link>
+		      </li>
+		      <li class="nav-item">
+		        <router-link :to="{ name: 'change-password' }" v-if="$auth.check()" class="nav-link">Alterar Senha</router-link>
+		      </li>
+		      <li class="nav-item">
+		        <router-link :to="{ name: 'register-user' }" v-if="$auth.check()" class="nav-link">Cadastrar Usuário</router-link>
+		      </li>
+		      <li class="nav-item">
+		        <a href="#" @click.prevent="logout" v-if="$auth.check()" class="nav-link">Logout</a>
+		      </li>
+		    </ul>
+		  </div>
+		</nav>
 		<div class="container">
 			<router-view></router-view>
 		</div>
