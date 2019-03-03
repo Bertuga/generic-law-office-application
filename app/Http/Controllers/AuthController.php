@@ -10,6 +10,26 @@ use JWTAuth;
 
 class AuthController extends Controller
 {
+
+	public function register(Request $request)
+	{
+		$userData = $request->only('name', 'email');
+
+		try {
+			$userData['password'] = bcrypt($request->input('password'));
+			$user = User::create($userData);
+			return response([
+                'status' => 'success',
+            ]);
+		} catch (\Exception $e) {
+			return response([
+                'status' => 'error',
+                'error' => 'invalid.user.data',
+                'msg' => 'Invalid user data'
+            ], 400);
+		}
+	}
+
     public function login(Request $request)
 	{
 	    $credentials = $request->only('email', 'password');
