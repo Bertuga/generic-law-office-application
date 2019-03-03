@@ -12,6 +12,7 @@ import App from './App.vue'
 import Home from '../views/Home'
 import Login from '../views/Login'
 import ChangePassword from '../views/ChangePassword'
+import RegisterUser from '../views/RegisterUser'
 
 const router = new VueRouter({
 	mode: 'history',
@@ -42,6 +43,14 @@ const router = new VueRouter({
 		meta: {
 			auth: true
 		},
+	},
+	{
+		path: '/register-user',
+		name: 'register-user',
+		component: RegisterUser,
+		meta: {
+			auth: true
+		},
 	}]
 });
 
@@ -57,3 +66,7 @@ const app = new Vue({
 	components: { App },
 	router,
 });
+
+window.$ = window.jQuery = require('jquery');
+window.Popper = require('popper.js').default;
+require('bootstrap');
