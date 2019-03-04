@@ -35,7 +35,7 @@
       change_password(){
         this.success = false;
         this.error = false;
-        axios.post('/auth/change-password', {
+        axios.post('api/auth/change-password', {
           old_password: this.old_password,
           new_password: this.new_password
         })
