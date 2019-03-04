@@ -11,17 +11,22 @@
 |
 */
 
-Route::get('/{any}', 'SpaController@index')->where('any', '.*');
 
-Route::post('auth/login', 'AuthController@login');
+Route::get('/{any}', 'SpaController@index')->where('any', '^(?!api\/)[\/\w\.-]*');;
+/*Route::post('auth/login', 'AuthController@login');
+
+Route::group(['middleware' => 'jwt.auth'], function(){
+  Route::post('auth/register', 'AuthController@register')->middleware('is.admin');
+  Route::get('register-user', 'SpaController@index')->middleware('is.admin');
+});
 
 Route::group(['middleware' => 'jwt.auth'], function(){
   Route::get('auth/user', 'AuthController@user');
-  Route::post('auth/register', 'AuthController@register');
   Route::post('auth/change-password', 'AuthController@changePassword');
 });
+
 Route::group(['middleware' => 'jwt.refresh'], function(){
-  Route::get('auth/refresh', 'AuthController@refresh');
+  
 });
 
-Auth::routes();
+Auth::routes();*/
