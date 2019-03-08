@@ -1,19 +1,23 @@
 <template>
 	<div>
-        <div class="alert alert-danger" v-if="error">
-            <p>{{ this.error }}</p>
-        </div>
+        <ul class="alert alert-danger" v-if="errors">
+            <template v-for="errorList in errors">
+              <p v-for="error in errorList">
+                {{ error }}
+              </p>
+            </template>
+        </ul>
         <div class="alert alert-success" v-if="success">
             <p>Senha alterada com sucesso.</p>
         </div>
         <form autocomplete="off" @submit.prevent="change_password" method="post">
             <div class="form-group">
-                <label for="old_password">Senha antiga</label>
-                <input type="password" id="old_password" name="old_password" class="form-control" v-model="old_password" required>
+                <label for="senha_antiga">Senha antiga</label>
+                <input type="password" id="senha_antiga" name="senha_antiga" class="form-control" v-model="senha_antiga" required>
             </div>
             <div class="form-group">
-                <label for="new_password">Senha nova</label>
-                <input type="password" id="new_password" name="new_password" class="form-control" v-model="new_password" required>
+                <label for="senha_nova">Senha nova</label>
+                <input type="password" id="senha_nova" name="senha_nova" class="form-control" v-model="senha_nova" required>
             </div>
             <input type="submit" class="btn btn-default" value="Entrar"/>
         </form>
@@ -25,31 +29,36 @@
   export default {
     data(){
       return {
-        old_password: null,
-        new_password: null,
-        error: false,
+        senha_antiga: null,
+        senha_nova: null,
+        errors: null,
         success: false,
       }
     },
     methods: {
       change_password(){
         this.success = false;
-        this.error = false;
+        this.errors = null;
         axios.post('api/auth/change-password', {
-          old_password: this.old_password,
-          new_password: this.new_password
+          senha_antiga: this.senha_antiga,
+          senha_nova: this.senha_nova
         })
         .then(response => {
             this.success = true;
-            this.error = false;
-            this.old_password = null;
-            this.new_password = null;
+            this.errors = null;
+            this.senha_antiga = null;
+            this.senha_nova = null;
         })
         .catch(e => {
           this.success = false;
-          this.error = e.response.data.msg
+          console.log(e.response.data.errors)
+          this.errors = e.response.data.errors
         })    
       },
     }
   } 
 </script>
+
+<style>
+  .alert > p { margin-bottom: 0px; }
+</style>
