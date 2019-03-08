@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use JWTAuth;
 
 class AuthController extends Controller
@@ -49,8 +50,21 @@ class AuthController extends Controller
 	public function changePassword(Request $request)
 	{
 		$user = User::find(Auth::user()->id);
-		if(Hash::check($request->input('old_password'), $user->password)) {
-			$user->password = bcrypt($request->input('new_password'));
+		$validation = Validator::make($request->all(),[
+			'senha_antiga' => [
+				'required',
+				'different:senha_nova',
+				function ($attribute, $value, $fail) {
+					$user = User::find(Auth::user()->id);
+					if (!Hash::check($value, $user->password)) {
+						$fail('A senha antiga deve ser igual a senha atualmente cadastrada');
+					}
+				}
+			],
+			'senha_nova' => 'required|min:3|max:30|'
+		]);
+		if(!$validation->fails()) {
+			$user->password = bcrypt($request->input('senha_nova'));
 			$user->save();
 			return response([
 				'status' => 'success',
@@ -58,8 +72,7 @@ class AuthController extends Controller
 		} else {
 			return response([
 				'status' => 'error',
-				'error' => 'password.match.error',
-				'msg' => 'Senha antiga inválida.'
+				'errors' => collect($validation->errors()),
 			], 400);
 		}
 	}
