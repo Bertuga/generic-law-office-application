@@ -18,7 +18,7 @@ class CreateClientsTable extends Migration
             $table->string('nome');
             $table->string('rg');
             $table->string('nascimento');
-            $table->string('cpf');
+            $table->string('cpf')->unique();
             $table->string('endereco');
             $table->string('numero');
             $table->string('complemento')->nullable();
