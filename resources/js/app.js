@@ -14,6 +14,8 @@ import Home from '../views/Home'
 import Login from '../views/Login'
 import ChangePassword from '../views/ChangePassword'
 import RegisterUser from '../views/RegisterUser'
+import ClientsList from '../views/ClientsList'
+import LawsuitsList from '../views/LawsuitsList'
 
 const router = new VueRouter({
 	mode: 'history',
