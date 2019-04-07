@@ -52,6 +52,22 @@ const router = new VueRouter({
 		meta: {
 			auth: {roles: 1}
 		},
+	},
+	{
+		path: '/clients',
+		name: 'clients',
+		component: ClientsList,
+		meta: {
+			auth: true
+		},
+	},
+	{
+		path: '/lawsuits',
+		name: 'lawsuits',
+		component: LawsuitsList,
+		meta: {
+			auth: true
+		},
 	}]
 });
 

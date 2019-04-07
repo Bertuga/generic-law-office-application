@@ -2972,6 +2972,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     logout: function logout() {
@@ -38963,6 +38969,42 @@ var render = function() {
                       "router-link",
                       {
                         staticClass: "nav-link",
+                        attrs: { to: { name: "clients" } }
+                      },
+                      [_vm._v("Clientes")]
+                    )
+                  : _vm._e()
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "li",
+              { staticClass: "nav-item" },
+              [
+                _vm.$auth.check()
+                  ? _c(
+                      "router-link",
+                      {
+                        staticClass: "nav-link",
+                        attrs: { to: { name: "lawsuits" } }
+                      },
+                      [_vm._v("Processos")]
+                    )
+                  : _vm._e()
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "li",
+              { staticClass: "nav-item" },
+              [
+                _vm.$auth.check()
+                  ? _c(
+                      "router-link",
+                      {
+                        staticClass: "nav-link",
                         attrs: { to: { name: "register-user" } }
                       },
                       [_vm._v("Cadastrar Usuário")]
@@ -54304,6 +54346,20 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
       auth: {
         roles: 1
       }
+    }
+  }, {
+    path: '/clients',
+    name: 'clients',
+    component: ClientsList,
+    meta: {
+      auth: true
+    }
+  }, {
+    path: '/lawsuits',
+    name: 'lawsuits',
+    component: LawsuitsList,
+    meta: {
+      auth: true
     }
   }]
 });

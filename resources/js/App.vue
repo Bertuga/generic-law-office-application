@@ -14,6 +14,12 @@
 		        <router-link :to="{ name: 'change-password' }" v-if="$auth.check()" class="nav-link">Alterar Senha</router-link>
 		      </li>
 		      <li class="nav-item">
+		        <router-link :to="{ name: 'clients' }" v-if="$auth.check()" class="nav-link">Clientes</router-link>
+		      </li>
+		      <li class="nav-item">
+		        <router-link :to="{ name: 'lawsuits' }" v-if="$auth.check()" class="nav-link">Processos</router-link>
+		      </li>
+		      <li class="nav-item">
 		        <router-link :to="{ name: 'register-user' }" v-if="$auth.check()" class="nav-link">Cadastrar Usuário</router-link>
 		      </li>
 		      <li class="nav-item">
