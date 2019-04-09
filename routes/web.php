@@ -11,7 +11,6 @@
 |
 */
 
-
 Route::get('/{any}', 'SpaController@index')->where('any', '^(?!api\/)[\/\w\.-]*');;
 /*Route::post('auth/login', 'AuthController@login');
 

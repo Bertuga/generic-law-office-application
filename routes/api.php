@@ -20,8 +20,13 @@ Route::prefix('auth')->group(function () {
 
     Route::group(['middleware' => 'auth:api'], function(){
         Route::get('user', 'AuthController@user');
+        Route::get('listClients', 'SpaController@listClients');
   		Route::post('change-password', 'AuthController@changePassword');
         Route::post('logout', 'AuthController@logout');
     });
 
+});
+
+Route::group(['middleware' => 'auth:api'], function(){
+    Route::get('list-clients', 'SpaController@listClients');
 });
