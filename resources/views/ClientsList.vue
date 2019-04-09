@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h2>Clientes</h2>
+		<h2>Clientes <router-link :to="{ name: 'register-client' }" class="btn btn-primary float-right">+ Cliente</router-link></h2>
 		<div class="loading" v-if="carregando">
 			Carregando...
 		</div>

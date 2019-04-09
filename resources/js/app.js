@@ -15,6 +15,7 @@ import Login from '../views/Login'
 import ChangePassword from '../views/ChangePassword'
 import RegisterUser from '../views/RegisterUser'
 import ClientsList from '../views/ClientsList'
+import RegisterClient from '../views/RegisterClient'
 import LawsuitsList from '../views/LawsuitsList'
 
 const router = new VueRouter({
@@ -59,6 +60,14 @@ const router = new VueRouter({
 		path: '/clients',
 		name: 'clients',
 		component: ClientsList,
+		meta: {
+			auth: true
+		},
+	},
+	{
+		path: '/register-client',
+		name: 'register-client',
+		component: RegisterClient,
 		meta: {
 			auth: true
 		},
