@@ -46,3 +46,7 @@
 		}
 	}
 </script>
+
+<style>
+	nav { margin-bottom: 15px; }
+</style>
