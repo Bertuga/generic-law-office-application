@@ -92,7 +92,7 @@
     },
     created() {
     	this.id = this.id_cliente;
-    	if(this.id !== null)
+    	if(this.id !== undefined)
     		this.fetchClient();
     },
     props: ['id_cliente'],

@@ -3333,7 +3333,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.id = this.id_cliente;
-    if (this.id !== null) this.fetchClient();
+    if (this.id !== undefined) this.fetchClient();
   },
   props: ['id_cliente'],
   methods: {
