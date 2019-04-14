@@ -51,7 +51,6 @@
         })
         .catch(e => {
           this.success = false;
-          console.log(e.response.data.errors)
           this.errors = e.response.data.errors
         })    
       },

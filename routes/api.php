@@ -29,4 +29,6 @@ Route::prefix('auth')->group(function () {
 
 Route::group(['middleware' => 'auth:api'], function(){
     Route::get('list-clients', 'SpaController@listClients');
+    Route::get('fetch-client/{id}', 'SpaController@fetchClient');
+    Route::post('register-client', 'SpaController@registerClients');
 });

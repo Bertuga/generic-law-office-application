@@ -60,6 +60,7 @@ const router = new VueRouter({
 		path: '/clients',
 		name: 'clients',
 		component: ClientsList,
+		props: true,
 		meta: {
 			auth: true
 		},
@@ -68,6 +69,7 @@ const router = new VueRouter({
 		path: '/register-client',
 		name: 'register-client',
 		component: RegisterClient,
+		props: true,
 		meta: {
 			auth: true
 		},

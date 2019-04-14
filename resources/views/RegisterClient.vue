@@ -1,7 +1,14 @@
 <template>
 	<div>
-		<h2>Cliente</h2>
-		<form>
+		<ul class="alert alert-danger" v-if="errors">
+            <template v-for="errorList in errors">
+              <p v-for="error in errorList">
+                {{ error }}
+              </p>
+            </template>
+        </ul>
+		<h2>Cliente {{ this.id }}</h2>
+		<form @submit.prevent="checkForm">
 			<h3>Dados Pessoais</h3>
 			<div class="form-row">
 				<div class="form-group col-md-6">
@@ -39,23 +46,24 @@
 					<label for="complemento">Complemento:</label>
 					<input type="text" class="form-control" id="complemento" v-model="complemento">
 				</div>
-				<form-group class="col-md-3">
+				<div class="col-md-3">
 					<label for="bairro">Bairro:</label>
 					<input type="text" class="form-control" id="bairro" v-model="bairro" required>
-				</form-group>
-				<form-group class="col-md-3">
+				</div>
+				<div class="col-md-3">
 					<label for="cidade">Cidade:</label>
 					<input type="text" class="form-control" id="cidade" v-model="cidade" required>
-				</form-group>
-				<form-group class="col-md-3">
+				</div>
+				<div class="col-md-3">
 					<label for="estado">Estado:</label>
 					<input type="text" class="form-control" id="estado" v-model="estado" required>
-				</form-group>
-				<form-group class="col-md-3">
+				</div>
+				<div class="col-md-3">
 					<label for="cep">Cep:</label>
 					<input type="text" class="form-control" id="cep" v-model="cep" required>
-				</form-group>
+				</div>
 			</div>
+			<p><button type="submit">Salvar</button></p>
 		</form>
 	</div>
 </template>
@@ -67,7 +75,7 @@
       return {
         carregando: false,
         errors: null,
-		id: null,
+        id: null,
 		nome: null,
 		rg: null,
 		nascimento: null,
@@ -79,27 +87,62 @@
 		cidade: null,
 		estado: null,
 		cep: null,
-		email: null
+		email: null,
       }
-    }/*,
-    created() {
-    	this.fetchData();
     },
-	watch: {
-		'$route': 'fetchData'
-	},
+    created() {
+    	this.id = this.id_cliente;
+    	if(this.id !== null)
+    		this.fetchClient();
+    },
+    props: ['id_cliente'],
     methods: {
-      fetchData(){
-            this.error = this.clientes = null;
-        axios
-	        .get('api/list-clients')
+      fetchClient() {
+      	axios
+	        .get('/api/fetch-client/' + this.id)
 	        .then(response => {
-	        	this.clientes = response.data;
+	        	this.nome = response.data.nome;
+				this.rg = response.data.rg;
+				this.nascimento = response.data.nascimento;
+				this.cpf = response.data.cpf;
+				this.endereco = response.data.endereco;
+				this.numero = response.data.numero;
+				this.complemento = response.data.complemento;
+				this.bairro = response.data.bairro;
+				this.cidade = response.data.cidade;
+				this.estado = response.data.estado;
+				this.cep = response.data.cep;
+				this.email = response.data.email;
 	        })
 	        .catch(e => {
-	          this.error = "Falha ao carregar registros";
-	        })    
+	        	this.$router.replace({ name: "clients", params:{errorMsg: e.response.data.error}});
+	        })
       },
-    }*/
+      checkForm(){
+        this.errors = null;
+        axios
+	        .post('/api/register-client', {
+	        	id: this.id,
+	        	nome: this.nome,
+				rg: this.rg,
+				nascimento: this.nascimento,
+				cpf: this.cpf,
+				endereco: this.endereco,
+				numero: this.numero,
+				complemento: this.complemento,
+				bairro: this.bairro,
+				cidade: this.cidade,
+				estado: this.estado,
+				cep: this.cep,
+				email: this.email,
+	        })
+	        .then(response => {
+	        	this.$router.replace({ name: "clients", params:{successMsg: "Cliente salvo com sucesso."}});
+	        })
+	        .catch(e => {
+			    this.errors = e.response.data.errors
+	        })
+      },
+    }
   } 
 </script>

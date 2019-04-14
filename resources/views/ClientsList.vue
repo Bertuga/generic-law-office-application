@@ -4,8 +4,11 @@
 		<div class="loading" v-if="carregando">
 			Carregando...
 		</div>
-        <p class="alert alert-danger" v-if="error">
-            {{ error }}
+        <p class="alert alert-danger" v-if="this.error">
+            {{ this.error }}
+        </p>
+        <p class="alert alert-success" v-if="this.success">
+            {{ this.success }}
         </p>
 
         <table class="table table-hover table-bordered">
@@ -20,13 +23,13 @@
 				</tr>
 			</thead>
 			<tbody v-if="clientes">
-				<tr v-for="{ nome, rg, nascimento, cpf, cidade } in clientes">
+				<tr v-for="{ id, nome, rg, nascimento, cpf, cidade } in clientes">
 					<td>{{ nome }}</td>
 					<td>{{ rg }}</td>
 					<td>{{ nascimento }}</td>
 					<td>{{ cpf }}</td>
 					<td>{{ cidade }}</td>
-					<td></td>
+					<td><router-link :to="{ name: 'register-client', params: {id_cliente: id} }" class="btn btn-primary float-right">Editar</router-link></td>
 				</tr>
 			</tbody>
         </table>
@@ -40,18 +43,17 @@
       return {
         carregando: false,
         clientes: null,
-        errors: null
+        error: this.errorMsg,
+        success: this.successMsg
       }
     },
     created() {
     	this.fetchData();
     },
-	watch: {
-		'$route': 'fetchData'
-	},
+    props: ['errorMsg', 'successMsg'],
     methods: {
       fetchData(){
-            this.error = this.clientes = null;
+        this.clientes = null;
         axios
 	        .get('api/list-clients')
 	        .then(response => {
