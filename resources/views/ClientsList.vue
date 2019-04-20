@@ -29,7 +29,10 @@
 					<td>{{ nascimento }}</td>
 					<td>{{ cpf }}</td>
 					<td>{{ cidade }}</td>
-					<td><router-link :to="{ name: 'register-client', params: {id_cliente: id} }" class="btn btn-primary float-right">Editar</router-link></td>
+					<td class="text-right">
+						<router-link :to="{ name: 'register-client', params: {id_client: id} }" class="btn btn-primary">Editar</router-link>
+						<button v-if="$auth.check(Roles.Admin)" @click="deleteClient(id)" class="btn btn-danger">Excluir</button>
+					</td>
 				</tr>
 			</tbody>
         </table>
@@ -38,9 +41,11 @@
 
 <script>
   import axios from 'axios'
+  import { Roles } from '../js/roles.js'
   export default {
     data(){
       return {
+      	Roles: Roles,
         carregando: false,
         clientes: null,
         error: this.errorMsg,
@@ -52,6 +57,19 @@
     },
     props: ['errorMsg', 'successMsg'],
     methods: {
+      deleteClient(id) {
+      	if(confirm('Deseja realmente excluir esse cliente?')) {
+      		axios
+      			.post('api/delete-client', {id: id})
+		        .then(response => {
+		        	this.success = response.data.message;
+		        	this.fetchData();
+		        })
+		        .catch(e => {
+		            this.errorMsg = e.response.data.error;
+		        }) 
+      	}
+      },
       fetchData(){
         this.clientes = null;
         axios

@@ -9,6 +9,7 @@ Vue.use(VueAxios, axios)
 
 axios.default.baseURL = 'http://localhost:8000/api'
 
+import { Roles } from './roles.js'
 import App from './App.vue'
 import Home from '../views/Home'
 import Login from '../views/Login'
@@ -53,7 +54,7 @@ const router = new VueRouter({
 		name: 'register-user',
 		component: RegisterUser,
 		meta: {
-			auth: {roles: 1}
+			auth: {roles: Roles.Admin}
 		},
 	},
 	{
@@ -66,7 +67,7 @@ const router = new VueRouter({
 		},
 	},
 	{
-		path: '/register-client',
+		path: '/register-client/:id_client?',
 		name: 'register-client',
 		component: RegisterClient,
 		props: true,

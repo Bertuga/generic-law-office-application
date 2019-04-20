@@ -2942,6 +2942,7 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _roles_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./roles.js */ "./resources/js/roles.js");
 //
 //
 //
@@ -2978,7 +2979,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      Roles: _roles_js__WEBPACK_IMPORTED_MODULE_0__["Roles"]
+    };
+  },
   methods: {
     logout: function logout() {
       this.$auth.logout({
@@ -3073,6 +3080,10 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _js_roles_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../js/roles.js */ "./resources/js/roles.js");
+//
+//
+//
 //
 //
 //
@@ -3112,9 +3123,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      Roles: _js_roles_js__WEBPACK_IMPORTED_MODULE_1__["Roles"],
       carregando: false,
       clientes: null,
       error: this.errorMsg,
@@ -3126,14 +3139,29 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: ['errorMsg', 'successMsg'],
   methods: {
-    fetchData: function fetchData() {
+    deleteClient: function deleteClient(id) {
       var _this = this;
+
+      if (confirm('Deseja realmente excluir esse cliente?')) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('api/delete-client', {
+          id: id
+        }).then(function (response) {
+          _this.success = response.data.message;
+
+          _this.fetchData();
+        }).catch(function (e) {
+          _this.errorMsg = e.response.data.error;
+        });
+      }
+    },
+    fetchData: function fetchData() {
+      var _this2 = this;
 
       this.clientes = null;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('api/list-clients').then(function (response) {
-        _this.clientes = response.data;
+        _this2.clientes = response.data;
       }).catch(function (e) {
-        _this.error = "Falha ao carregar registros";
+        _this2.error = "Falha ao carregar registros";
       });
     }
   }
@@ -3367,10 +3395,10 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    this.id = this.id_cliente;
+    this.id = this.id_client;
     if (this.id !== undefined) this.fetchClient();
   },
-  props: ['id_cliente'],
+  props: ['id_client'],
   methods: {
     fetchClient: function fetchClient() {
       var _this = this;
@@ -39392,7 +39420,7 @@ var render = function() {
               "li",
               { staticClass: "nav-item" },
               [
-                _vm.$auth.check()
+                _vm.$auth.check(_vm.Roles.Admin)
                   ? _c(
                       "router-link",
                       {
@@ -39668,20 +39696,36 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "td",
+                  { staticClass: "text-right" },
                   [
                     _c(
                       "router-link",
                       {
-                        staticClass: "btn btn-primary float-right",
+                        staticClass: "btn btn-primary",
                         attrs: {
                           to: {
                             name: "register-client",
-                            params: { id_cliente: id }
+                            params: { id_client: id }
                           }
                         }
                       },
                       [_vm._v("Editar")]
-                    )
+                    ),
+                    _vm._v(" "),
+                    _vm.$auth.check(_vm.Roles.Admin)
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger",
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteClient(id)
+                              }
+                            }
+                          },
+                          [_vm._v("Excluir")]
+                        )
+                      : _vm._e()
                   ],
                   1
                 )
@@ -40352,6 +40396,7 @@ var render = function() {
             })
           ])
         ]),
+        _c("br"),
         _vm._v(" "),
         _vm._m(0)
       ]
@@ -40363,8 +40408,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("p", [
-      _c("button", { attrs: { type: "submit" } }, [_vm._v("Salvar")])
+    return _c("p", { staticClass: "text-right" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-success", attrs: { type: "submit" } },
+        [_vm._v("Salvar")]
+      )
     ])
   }
 ]
@@ -55358,14 +55407,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vue_axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-axios */ "./node_modules/vue-axios/dist/vue-axios.min.js");
 /* harmony import */ var vue_axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_axios__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _App_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./App.vue */ "./resources/js/App.vue");
-/* harmony import */ var _views_Home__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/Home */ "./resources/views/Home.vue");
-/* harmony import */ var _views_Login__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/Login */ "./resources/views/Login.vue");
-/* harmony import */ var _views_ChangePassword__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/ChangePassword */ "./resources/views/ChangePassword.vue");
-/* harmony import */ var _views_RegisterUser__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/RegisterUser */ "./resources/views/RegisterUser.vue");
-/* harmony import */ var _views_ClientsList__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/ClientsList */ "./resources/views/ClientsList.vue");
-/* harmony import */ var _views_RegisterClient__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../views/RegisterClient */ "./resources/views/RegisterClient.vue");
-/* harmony import */ var _views_LawsuitsList__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../views/LawsuitsList */ "./resources/views/LawsuitsList.vue");
+/* harmony import */ var _roles_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./roles.js */ "./resources/js/roles.js");
+/* harmony import */ var _App_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./App.vue */ "./resources/js/App.vue");
+/* harmony import */ var _views_Home__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/Home */ "./resources/views/Home.vue");
+/* harmony import */ var _views_Login__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/Login */ "./resources/views/Login.vue");
+/* harmony import */ var _views_ChangePassword__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/ChangePassword */ "./resources/views/ChangePassword.vue");
+/* harmony import */ var _views_RegisterUser__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/RegisterUser */ "./resources/views/RegisterUser.vue");
+/* harmony import */ var _views_ClientsList__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../views/ClientsList */ "./resources/views/ClientsList.vue");
+/* harmony import */ var _views_RegisterClient__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../views/RegisterClient */ "./resources/views/RegisterClient.vue");
+/* harmony import */ var _views_LawsuitsList__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../views/LawsuitsList */ "./resources/views/LawsuitsList.vue");
 
 
 
@@ -55382,6 +55432,7 @@ axios__WEBPACK_IMPORTED_MODULE_3___default.a.default.baseURL = 'http://localhost
 
 
 
+
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
   mode: 'history',
   routes: [{
@@ -55390,7 +55441,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
   }, {
     path: '/login',
     name: 'login',
-    component: _views_Login__WEBPACK_IMPORTED_MODULE_7__["default"],
+    component: _views_Login__WEBPACK_IMPORTED_MODULE_8__["default"],
     meta: {
       auth: false,
       notFoundRedirect: '/home'
@@ -55398,38 +55449,38 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
   }, {
     path: '/home',
     name: 'home',
-    component: _views_Home__WEBPACK_IMPORTED_MODULE_6__["default"],
+    component: _views_Home__WEBPACK_IMPORTED_MODULE_7__["default"],
     meta: {
       auth: true
     }
   }, {
     path: '/change-password',
     name: 'change-password',
-    component: _views_ChangePassword__WEBPACK_IMPORTED_MODULE_8__["default"],
+    component: _views_ChangePassword__WEBPACK_IMPORTED_MODULE_9__["default"],
     meta: {
       auth: true
     }
   }, {
     path: '/register-user',
     name: 'register-user',
-    component: _views_RegisterUser__WEBPACK_IMPORTED_MODULE_9__["default"],
+    component: _views_RegisterUser__WEBPACK_IMPORTED_MODULE_10__["default"],
     meta: {
       auth: {
-        roles: 1
+        roles: _roles_js__WEBPACK_IMPORTED_MODULE_5__["Roles"].Admin
       }
     }
   }, {
     path: '/clients',
     name: 'clients',
-    component: _views_ClientsList__WEBPACK_IMPORTED_MODULE_10__["default"],
+    component: _views_ClientsList__WEBPACK_IMPORTED_MODULE_11__["default"],
     props: true,
     meta: {
       auth: true
     }
   }, {
-    path: '/register-client',
+    path: '/register-client/:id_client?',
     name: 'register-client',
-    component: _views_RegisterClient__WEBPACK_IMPORTED_MODULE_11__["default"],
+    component: _views_RegisterClient__WEBPACK_IMPORTED_MODULE_12__["default"],
     props: true,
     meta: {
       auth: true
@@ -55437,7 +55488,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
   }, {
     path: '/lawsuits',
     name: 'lawsuits',
-    component: _views_LawsuitsList__WEBPACK_IMPORTED_MODULE_12__["default"],
+    component: _views_LawsuitsList__WEBPACK_IMPORTED_MODULE_13__["default"],
     meta: {
       auth: true
     }
@@ -55468,7 +55519,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(__webpack_require__(/*! @websanov
 var app = new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
   el: '#app',
   components: {
-    App: _App_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+    App: _App_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   router: router
 });
@@ -55530,6 +55581,22 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/roles.js":
+/*!*******************************!*\
+  !*** ./resources/js/roles.js ***!
+  \*******************************/
+/*! exports provided: Roles */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Roles", function() { return Roles; });
+var Roles = {
+  Admin: 1
+};
 
 /***/ }),
 

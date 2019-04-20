@@ -20,7 +20,7 @@
 		        <router-link :to="{ name: 'lawsuits' }" v-if="$auth.check()" class="nav-link">Processos</router-link>
 		      </li>
 		      <li class="nav-item">
-		        <router-link :to="{ name: 'register-user' }" v-if="$auth.check()" class="nav-link">Cadastrar Usuário</router-link>
+		        <router-link :to="{ name: 'register-user' }" v-if="$auth.check(Roles.Admin)" class="nav-link">Cadastrar Usuário</router-link>
 		      </li>
 		      <li class="nav-item">
 		        <a href="#" @click.prevent="logout" v-if="$auth.check()" class="nav-link">Logout</a>
@@ -35,7 +35,13 @@
 </template>
 
 <script>
+	import { Roles } from './roles.js'
 	export default {
+		data() {
+			return {
+				Roles: Roles
+			}
+		},
 		methods: {
 			logout() {
 				this.$auth.logout({

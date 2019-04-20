@@ -31,9 +31,22 @@ class SpaController extends Controller
     	}
     }
 
-    public function deleteCliente(Request $request)
+    public function deleteClient(Request $request)
     {
-
+    	try {
+    		$cliente = Cliente::findOrFail($request->input('id'));
+    		$cliente->delete();
+    		return response([
+				'status' => 'success',
+				'message' => 'Cliente excluído com sucesso',
+			], 200);
+    	}
+    	catch(\Exception $e) {
+    		return response([
+				'status' => 'error',
+				'error' => 'Cliente inexistente',
+			], 400);
+    	}
     }
 
     public function registerClient(Request $request)

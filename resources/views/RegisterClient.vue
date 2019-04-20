@@ -91,8 +91,8 @@
 					<label for="cep">Cep:</label>
 					<input type="text" class="form-control" id="cep" v-model="cep" required v-mask="'#####-###'">
 				</div>
-			</div>
-			<p><button type="submit">Salvar</button></p>
+			</div><br />
+			<p class="text-right"><button type="submit" class="btn btn-success">Salvar</button></p>
 		</form>
 	</div>
 </template>
@@ -122,11 +122,11 @@
       }
     },
     created() {
-    	this.id = this.id_cliente;
+    	this.id = this.id_client;
     	if(this.id !== undefined)
     		this.fetchClient();
     },
-    props: ['id_cliente'],
+    props: ['id_client'],
     methods: {
       fetchClient() {
       	axios
