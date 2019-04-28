@@ -21,7 +21,7 @@ class CreatePhonesTable extends Migration
             $table->timestamp('criado_em')->nullable();
             $table->timestamp('alterado_em')->nullable();
 
-            $table->foreign('id_cliente')->references('id')->on('clientes');
+            $table->foreign('id_cliente')->references('id')->on('clientes')->onDelete('cascade');
         });
     }
 

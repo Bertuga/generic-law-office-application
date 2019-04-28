@@ -21,7 +21,7 @@
 				</div>
 				<div class="form-group col-md-4">
 					<label for="nascimento">Data de Nascimento:</label>
-					<input type="text" class="form-control" id="nascimento" v-model="nascimento" required>
+					<input type="text" class="form-control" id="nascimento" v-model="nascimento" v-mask="'##/##/####'" required>
 				</div>
 				<div class="form-group col-md-4">
 					<label for="rg">RG:</label>

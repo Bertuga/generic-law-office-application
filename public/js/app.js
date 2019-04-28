@@ -3143,7 +3143,7 @@ __webpack_require__.r(__webpack_exports__);
     deleteClient: function deleteClient(id) {
       var _this = this;
 
-      if (confirm('Deseja realmente excluir esse cliente?')) {
+      if (confirm('Deseja realmente excluir esse cliente?') && confirm('Isso vai excluir dados de contato e processos. Deseja realmente continuar?')) {
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('api/delete-client', {
           id: id
         }).then(function (response) {
@@ -40429,6 +40429,12 @@ var render = function() {
                   rawName: "v-model",
                   value: _vm.nascimento,
                   expression: "nascimento"
+                },
+                {
+                  name: "mask",
+                  rawName: "v-mask",
+                  value: "##/##/####",
+                  expression: "'##/##/####'"
                 }
               ],
               staticClass: "form-control",

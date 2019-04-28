@@ -59,7 +59,7 @@
     props: ['errorMsg', 'successMsg'],
     methods: {
       deleteClient(id) {
-      	if(confirm('Deseja realmente excluir esse cliente?')) {
+      	if(confirm('Deseja realmente excluir esse cliente?') && confirm('Isso vai excluir dados de contato e processos. Deseja realmente continuar?')) {
       		axios
       			.post('api/delete-client', {id: id})
 		        .then(response => {
