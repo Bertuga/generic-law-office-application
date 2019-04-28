@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Cliente;
+use App\Telefone;
 
 class SpaController extends Controller
 {
@@ -16,6 +17,24 @@ class SpaController extends Controller
     public function listClients()
     {
     	return response()->json(Cliente::all());
+    }
+
+    public function listPhones(Request $request)
+    {
+    	return response()->json(Telefone::where(['id_cliente' => $request->route('id_client')])->get());
+    }
+
+    public function fetchPhone(Request $request)
+    {
+    	try {
+    		return response()->json(Telefone::where(['id' => $request->route('id'), 'id_cliente' => $request->route('id_client')])->firstOrFail());
+    	}
+    	catch(\Exception $e) {
+    		return response([
+				'status' => 'error',
+				'error' => 'Telefone inexistente',
+			], 400);
+    	}
     }
 
     public function fetchClient(Request $request)
@@ -45,6 +64,24 @@ class SpaController extends Controller
     		return response([
 				'status' => 'error',
 				'error' => 'Cliente inexistente',
+			], 400);
+    	}
+    }
+
+    public function deletePhone(Request $request)
+    {
+    	try {
+    		$telefone = Telefone::findOrFail($request->input('id'));
+    		$telefone->delete();
+    		return response([
+				'status' => 'success',
+				'message' => 'Telefone excluído com sucesso',
+			], 200);
+    	}
+    	catch(\Exception $e) {
+    		return response([
+				'status' => 'error',
+				'error' => 'Telefone inexistente',
 			], 400);
     	}
     }
@@ -101,6 +138,27 @@ class SpaController extends Controller
 		]);
 		if(!$validation->fails()) {
     		$cliente = Cliente::updateOrCreate(['id' => $request->input('id')], $request->all());
+			return response([
+				'status' => 'success',
+			]);
+		} else {
+			return response([
+				'status' => 'error',
+				'errors' => collect($validation->errors()),
+			], 400);
+		}
+    }
+
+    public function registerPhone(Request $request)
+    {
+		$validation = Validator::make($request->all(),[
+			'id' => 'nullable|integer',
+			'id_cliente' => 'integer',
+			'nome' => 'required|string',
+			'numero' => 'required|string|',
+		]);
+		if(!$validation->fails()) {
+    		$telefone = Telefone::updateOrCreate(['id' => $request->input('id')], $request->all());
 			return response([
 				'status' => 'success',
 			]);

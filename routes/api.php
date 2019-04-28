@@ -31,5 +31,9 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('list-clients', 'SpaController@listClients');
     Route::get('fetch-client/{id}', 'SpaController@fetchClient');
     Route::post('register-client', 'SpaController@registerClient');
-    Route::post('delete-client', 'SpaController@deleteClient');
+    Route::post('delete-client', 'SpaController@deleteClient')->middleware('is.admin');
+    Route::get('list-phones/{id_client}', 'SpaController@listPhones');
+    Route::get('fetch-phone/{id}/{id_client}', 'SpaController@fetchPhone');
+    Route::post('register-phone', 'SpaController@registerPhone');
+    Route::post('delete-phone', 'SpaController@deletePhone');
 });

@@ -3122,6 +3122,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3250,6 +3251,99 @@ __webpack_require__.r(__webpack_exports__);
         rememberMe: true,
         redirect: '/home',
         fetchUser: true
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/PhonesList.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/PhonesList.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      carregando: false,
+      id_cliente: null,
+      telefones: null,
+      error: this.errorMsg,
+      success: this.successMsg
+    };
+  },
+  created: function created() {
+    this.id_cliente = this.id_client;
+    this.fetchData();
+  },
+  props: ['errorMsg', 'successMsg', 'id_client'],
+  methods: {
+    deletePhone: function deletePhone(id) {
+      var _this = this;
+
+      if (confirm('Deseja realmente excluir esse telefone?')) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/delete-phone', {
+          id: id
+        }).then(function (response) {
+          _this.success = response.data.message;
+
+          _this.fetchData();
+        }).catch(function (e) {
+          _this.errorMsg = e.response.data.error;
+        });
+      }
+    },
+    fetchData: function fetchData() {
+      var _this2 = this;
+
+      this.telefones = null;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/list-phones/' + this.id_cliente).then(function (response) {
+        _this2.telefones = response.data;
+      }).catch(function (e) {
+        _this2.error = "Falha ao carregar registros";
       });
     }
   }
@@ -3448,6 +3542,110 @@ __webpack_require__.r(__webpack_exports__);
           name: "clients",
           params: {
             successMsg: "Cliente salvo com sucesso."
+          }
+        });
+      }).catch(function (e) {
+        _this2.errors = e.response.data.errors;
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/RegisterPhone.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/RegisterPhone.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-the-mask */ "./node_modules/vue-the-mask/dist/vue-the-mask.js");
+/* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_the_mask__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  directives: {
+    mask: vue_the_mask__WEBPACK_IMPORTED_MODULE_1__["mask"]
+  },
+  data: function data() {
+    return {
+      carregando: false,
+      errors: null,
+      id: null,
+      id_cliente: null,
+      nome: null,
+      numero: null
+    };
+  },
+  created: function created() {
+    this.id_cliente = this.id_client;
+    this.id = this.id_phone;
+    if (this.id !== undefined) this.fetchPhone();
+  },
+  props: ['id_client', 'id_phone'],
+  methods: {
+    fetchPhone: function fetchPhone() {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/fetch-phone/' + this.id + '/' + this.id_cliente).then(function (response) {
+        _this.nome = response.data.nome;
+        _this.numero = response.data.numero;
+      }).catch(function (e) {
+        _this.$router.replace({
+          name: "clients",
+          params: {
+            errorMsg: e.response.data.error
+          }
+        });
+      });
+    },
+    checkForm: function checkForm() {
+      var _this2 = this;
+
+      this.errors = null;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/register-phone', {
+        id: this.id,
+        id_cliente: this.id_cliente,
+        nome: this.nome,
+        numero: this.numero
+      }).then(function (response) {
+        _this2.$router.replace({
+          name: "phones",
+          params: {
+            id_client: _this2.id_cliente,
+            successMsg: "Telefone salvo com sucesso."
           }
         });
       }).catch(function (e) {
@@ -8021,6 +8219,25 @@ exports.push([module.i, "\n.alert > p { margin-bottom: 0px;\n}\n", ""]);
 /*!*********************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/ClientsList.vue?vue&type=style&index=0&lang=css& ***!
   \*********************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.alert > p { margin-bottom: 0px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/PhonesList.vue?vue&type=style&index=0&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/PhonesList.vue?vue&type=style&index=0&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -38720,6 +38937,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/PhonesList.vue?vue&type=style&index=0&lang=css&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/PhonesList.vue?vue&type=style&index=0&lang=css& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../node_modules/css-loader??ref--6-1!../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../node_modules/postcss-loader/src??ref--6-2!../../node_modules/vue-loader/lib??vue-loader-options!./PhonesList.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/PhonesList.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/lib/addStyles.js":
 /*!****************************************************!*\
   !*** ./node_modules/style-loader/lib/addStyles.js ***!
@@ -39703,6 +39950,17 @@ var render = function() {
                       {
                         staticClass: "btn btn-primary",
                         attrs: {
+                          to: { name: "phones", params: { id_client: id } }
+                        }
+                      },
+                      [_vm._v("Contatos")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: {
                           to: {
                             name: "register-client",
                             params: { id_client: id }
@@ -39927,6 +40185,135 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/PhonesList.vue?vue&type=template&id=88eb95c8&":
+/*!*****************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/PhonesList.vue?vue&type=template&id=88eb95c8& ***!
+  \*****************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "h2",
+      [
+        _vm._v("Telefones "),
+        _c(
+          "router-link",
+          {
+            staticClass: "btn btn-primary float-right",
+            attrs: { to: { name: "register-phone" } }
+          },
+          [_vm._v("+ Telefone")]
+        )
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _vm.carregando
+      ? _c("div", { staticClass: "loading" }, [
+          _vm._v("\n\t\t\tCarregando...\n\t\t")
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    this.error
+      ? _c("p", { staticClass: "alert alert-danger" }, [
+          _vm._v("\n            " + _vm._s(this.error) + "\n        ")
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    this.success
+      ? _c("p", { staticClass: "alert alert-success" }, [
+          _vm._v("\n            " + _vm._s(this.success) + "\n        ")
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c("table", { staticClass: "table table-hover table-bordered" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _vm.telefones
+        ? _c(
+            "tbody",
+            _vm._l(_vm.telefones, function(ref) {
+              var id = ref.id
+              var id_cliente = ref.id_cliente
+              var nome = ref.nome
+              var numero = ref.numero
+              return _c("tr", [
+                _c("td", [_vm._v(_vm._s(nome))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(numero))]),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  { staticClass: "text-right" },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: {
+                          to: {
+                            name: "register-phone",
+                            params: { id_phone: id, id_client: id_cliente }
+                          }
+                        }
+                      },
+                      [_vm._v("Editar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        on: {
+                          click: function($event) {
+                            return _vm.deletePhone(id)
+                          }
+                        }
+                      },
+                      [_vm._v("Excluir")]
+                    )
+                  ],
+                  1
+                )
+              ])
+            }),
+            0
+          )
+        : _vm._e()
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-dark" }, [
+      _c("tr", [
+        _c("td", [_vm._v("Nome")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Número")]),
+        _vm._v(" "),
+        _c("td")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/RegisterClient.vue?vue&type=template&id=581a6732&":
 /*!*********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/RegisterClient.vue?vue&type=template&id=581a6732& ***!
@@ -39962,7 +40349,7 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
-    _c("h2", [_vm._v("Cliente " + _vm._s(this.id))]),
+    _c("h2", [_vm._v("Cliente " + _vm._s(this.nome))]),
     _vm._v(" "),
     _c(
       "form",
@@ -40397,6 +40784,141 @@ var render = function() {
           ])
         ]),
         _c("br"),
+        _vm._v(" "),
+        _vm._m(0)
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "text-right" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-success", attrs: { type: "submit" } },
+        [_vm._v("Salvar")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/RegisterPhone.vue?vue&type=template&id=6c7b0502&":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/RegisterPhone.vue?vue&type=template&id=6c7b0502& ***!
+  \********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.errors
+      ? _c(
+          "ul",
+          { staticClass: "alert alert-danger" },
+          [
+            _vm._l(_vm.errors, function(errorList) {
+              return _vm._l(errorList, function(error) {
+                return _c("p", [
+                  _vm._v(
+                    "\n                " + _vm._s(error) + "\n              "
+                  )
+                ])
+              })
+            })
+          ],
+          2
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _c("h2", [_vm._v("Telefone")]),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.checkForm($event)
+          }
+        }
+      },
+      [
+        _c("h3", [_vm._v("Dados")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-row" }, [
+          _c("div", { staticClass: "form-group col-md-6" }, [
+            _c("label", { attrs: { for: "nome" } }, [_vm._v("Nome:")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.nome,
+                  expression: "nome"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", id: "nome", required: "" },
+              domProps: { value: _vm.nome },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.nome = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group col-md-6" }, [
+            _c("label", { attrs: { for: "numero" } }, [_vm._v("Número:")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.numero,
+                  expression: "numero"
+                },
+                {
+                  name: "mask",
+                  rawName: "v-mask",
+                  value: ["(##) ####-####", "(##) #####-####"],
+                  expression: "['(##) ####-####', '(##) #####-####']"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", id: "numero" },
+              domProps: { value: _vm.numero },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.numero = $event.target.value
+                }
+              }
+            })
+          ])
+        ]),
         _vm._v(" "),
         _vm._m(0)
       ]
@@ -55415,7 +55937,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_RegisterUser__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/RegisterUser */ "./resources/views/RegisterUser.vue");
 /* harmony import */ var _views_ClientsList__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../views/ClientsList */ "./resources/views/ClientsList.vue");
 /* harmony import */ var _views_RegisterClient__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../views/RegisterClient */ "./resources/views/RegisterClient.vue");
-/* harmony import */ var _views_LawsuitsList__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../views/LawsuitsList */ "./resources/views/LawsuitsList.vue");
+/* harmony import */ var _views_PhonesList__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../views/PhonesList */ "./resources/views/PhonesList.vue");
+/* harmony import */ var _views_RegisterPhone__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../views/RegisterPhone */ "./resources/views/RegisterPhone.vue");
+/* harmony import */ var _views_LawsuitsList__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../views/LawsuitsList */ "./resources/views/LawsuitsList.vue");
 
 
 
@@ -55424,6 +55948,8 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_axios__WEBPACK_IMPORTED_MODULE_4___default.a, axios__WEBPACK_IMPORTED_MODULE_3___default.a);
 axios__WEBPACK_IMPORTED_MODULE_3___default.a.default.baseURL = 'http://localhost:8000/api';
+
+
 
 
 
@@ -55486,9 +56012,25 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
       auth: true
     }
   }, {
+    path: '/phones/:id_client',
+    name: 'phones',
+    component: _views_PhonesList__WEBPACK_IMPORTED_MODULE_13__["default"],
+    props: true,
+    meta: {
+      auth: true
+    }
+  }, {
+    path: '/register-phone/:id_phone/:id_client',
+    name: 'register-phone',
+    component: _views_RegisterPhone__WEBPACK_IMPORTED_MODULE_14__["default"],
+    props: true,
+    meta: {
+      auth: true
+    }
+  }, {
     path: '/lawsuits',
     name: 'lawsuits',
-    component: _views_LawsuitsList__WEBPACK_IMPORTED_MODULE_13__["default"],
+    component: _views_LawsuitsList__WEBPACK_IMPORTED_MODULE_15__["default"],
     meta: {
       auth: true
     }
@@ -55998,6 +56540,93 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/views/PhonesList.vue":
+/*!****************************************!*\
+  !*** ./resources/views/PhonesList.vue ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PhonesList_vue_vue_type_template_id_88eb95c8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PhonesList.vue?vue&type=template&id=88eb95c8& */ "./resources/views/PhonesList.vue?vue&type=template&id=88eb95c8&");
+/* harmony import */ var _PhonesList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PhonesList.vue?vue&type=script&lang=js& */ "./resources/views/PhonesList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _PhonesList_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PhonesList.vue?vue&type=style&index=0&lang=css& */ "./resources/views/PhonesList.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _PhonesList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PhonesList_vue_vue_type_template_id_88eb95c8___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PhonesList_vue_vue_type_template_id_88eb95c8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/views/PhonesList.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/views/PhonesList.vue?vue&type=script&lang=js&":
+/*!*****************************************************************!*\
+  !*** ./resources/views/PhonesList.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PhonesList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib??ref--4-0!../../node_modules/vue-loader/lib??vue-loader-options!./PhonesList.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/PhonesList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PhonesList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/views/PhonesList.vue?vue&type=style&index=0&lang=css&":
+/*!*************************************************************************!*\
+  !*** ./resources/views/PhonesList.vue?vue&type=style&index=0&lang=css& ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PhonesList_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/style-loader!../../node_modules/css-loader??ref--6-1!../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../node_modules/postcss-loader/src??ref--6-2!../../node_modules/vue-loader/lib??vue-loader-options!./PhonesList.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/PhonesList.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PhonesList_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PhonesList_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PhonesList_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PhonesList_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PhonesList_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/views/PhonesList.vue?vue&type=template&id=88eb95c8&":
+/*!***********************************************************************!*\
+  !*** ./resources/views/PhonesList.vue?vue&type=template&id=88eb95c8& ***!
+  \***********************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PhonesList_vue_vue_type_template_id_88eb95c8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../node_modules/vue-loader/lib??vue-loader-options!./PhonesList.vue?vue&type=template&id=88eb95c8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/PhonesList.vue?vue&type=template&id=88eb95c8&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PhonesList_vue_vue_type_template_id_88eb95c8___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PhonesList_vue_vue_type_template_id_88eb95c8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/views/RegisterClient.vue":
 /*!********************************************!*\
   !*** ./resources/views/RegisterClient.vue ***!
@@ -56062,6 +56691,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegisterClient_vue_vue_type_template_id_581a6732___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegisterClient_vue_vue_type_template_id_581a6732___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/views/RegisterPhone.vue":
+/*!*******************************************!*\
+  !*** ./resources/views/RegisterPhone.vue ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _RegisterPhone_vue_vue_type_template_id_6c7b0502___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RegisterPhone.vue?vue&type=template&id=6c7b0502& */ "./resources/views/RegisterPhone.vue?vue&type=template&id=6c7b0502&");
+/* harmony import */ var _RegisterPhone_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RegisterPhone.vue?vue&type=script&lang=js& */ "./resources/views/RegisterPhone.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _RegisterPhone_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _RegisterPhone_vue_vue_type_template_id_6c7b0502___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _RegisterPhone_vue_vue_type_template_id_6c7b0502___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/views/RegisterPhone.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/views/RegisterPhone.vue?vue&type=script&lang=js&":
+/*!********************************************************************!*\
+  !*** ./resources/views/RegisterPhone.vue?vue&type=script&lang=js& ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RegisterPhone_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib??ref--4-0!../../node_modules/vue-loader/lib??vue-loader-options!./RegisterPhone.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/RegisterPhone.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RegisterPhone_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/views/RegisterPhone.vue?vue&type=template&id=6c7b0502&":
+/*!**************************************************************************!*\
+  !*** ./resources/views/RegisterPhone.vue?vue&type=template&id=6c7b0502& ***!
+  \**************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegisterPhone_vue_vue_type_template_id_6c7b0502___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../node_modules/vue-loader/lib??vue-loader-options!./RegisterPhone.vue?vue&type=template&id=6c7b0502& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/RegisterPhone.vue?vue&type=template&id=6c7b0502&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegisterPhone_vue_vue_type_template_id_6c7b0502___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegisterPhone_vue_vue_type_template_id_6c7b0502___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h2>Clientes <router-link :to="{ name: 'register-client' }" class="btn btn-primary float-right">+ Cliente</router-link></h2>
+		<h2>Telefones <router-link :to="{ name: 'register-phone' }" class="btn btn-primary float-right">+ Telefone</router-link></h2>
 		<div class="loading" v-if="carregando">
 			Carregando...
 		</div>
@@ -15,24 +15,17 @@
 			<thead class="thead-dark">
 				<tr>
 					<td>Nome</td>
-					<td>RG</td>
-					<td>Data de Nascimento</td>
-					<td>CPF</td>
-					<td>Cidade</td>
+					<td>Número</td>
 					<td></td>
 				</tr>
 			</thead>
-			<tbody v-if="clientes">
-				<tr v-for="{ id, nome, rg, nascimento, cpf, cidade } in clientes">
+			<tbody v-if="telefones">
+				<tr v-for="{ id, id_cliente, nome, numero } in telefones">
 					<td>{{ nome }}</td>
-					<td>{{ rg }}</td>
-					<td>{{ nascimento }}</td>
-					<td>{{ cpf }}</td>
-					<td>{{ cidade }}</td>
+					<td>{{ numero }}</td>
 					<td class="text-right">
-						<router-link :to="{ name: 'phones', params: {id_client: id} }" class="btn btn-primary">Contatos</router-link>
-						<router-link :to="{ name: 'register-client', params: {id_client: id} }" class="btn btn-primary">Editar</router-link>
-						<button v-if="$auth.check(Roles.Admin)" @click="deleteClient(id)" class="btn btn-danger">Excluir</button>
+						<router-link :to="{ name: 'register-phone', params: {id_phone: id, id_client: id_cliente} }" class="btn btn-primary">Editar</router-link>
+						<button @click="deletePhone(id)" class="btn btn-danger">Excluir</button>
 					</td>
 				</tr>
 			</tbody>
@@ -42,26 +35,26 @@
 
 <script>
   import axios from 'axios'
-  import { Roles } from '../js/roles.js'
   export default {
     data(){
       return {
-      	Roles: Roles,
         carregando: false,
-        clientes: null,
+        id_cliente: null,
+        telefones: null,
         error: this.errorMsg,
         success: this.successMsg
       }
     },
     created() {
+    	this.id_cliente = this.id_client;
     	this.fetchData();
     },
-    props: ['errorMsg', 'successMsg'],
+    props: ['errorMsg', 'successMsg', 'id_client'],
     methods: {
-      deleteClient(id) {
-      	if(confirm('Deseja realmente excluir esse cliente?')) {
+      deletePhone(id) {
+      	if(confirm('Deseja realmente excluir esse telefone?')) {
       		axios
-      			.post('api/delete-client', {id: id})
+      			.post('/api/delete-phone', {id: id})
 		        .then(response => {
 		        	this.success = response.data.message;
 		        	this.fetchData();
@@ -72,11 +65,11 @@
       	}
       },
       fetchData(){
-        this.clientes = null;
+        this.telefones = null;
         axios
-	        .get('api/list-clients')
+	        .get('/api/list-phones/' + this.id_cliente)
 	        .then(response => {
-	        	this.clientes = response.data;
+	        	this.telefones = response.data;
 	        })
 	        .catch(e => {
 	          this.error = "Falha ao carregar registros";

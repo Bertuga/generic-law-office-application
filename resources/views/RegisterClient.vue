@@ -7,7 +7,7 @@
               </p>
             </template>
         </ul>
-		<h2>Cliente {{ this.id }}</h2>
+		<h2>Cliente {{ this.nome }}</h2>
 		<form @submit.prevent="checkForm">
 			<h3>Dados Pessoais</h3>
 			<div class="form-row">

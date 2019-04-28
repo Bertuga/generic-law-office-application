@@ -17,6 +17,8 @@ import ChangePassword from '../views/ChangePassword'
 import RegisterUser from '../views/RegisterUser'
 import ClientsList from '../views/ClientsList'
 import RegisterClient from '../views/RegisterClient'
+import PhonesList from '../views/PhonesList'
+import RegisterPhone from '../views/RegisterPhone'
 import LawsuitsList from '../views/LawsuitsList'
 
 const router = new VueRouter({
@@ -70,6 +72,24 @@ const router = new VueRouter({
 		path: '/register-client/:id_client?',
 		name: 'register-client',
 		component: RegisterClient,
+		props: true,
+		meta: {
+			auth: true
+		},
+	},
+	{
+		path: '/phones/:id_client',
+		name: 'phones',
+		component: PhonesList,
+		props: true,
+		meta: {
+			auth: true
+		},
+	},
+	{
+		path: '/register-phone/:id_phone/:id_client',
+		name: 'register-phone',
+		component: RegisterPhone,
 		props: true,
 		meta: {
 			auth: true
