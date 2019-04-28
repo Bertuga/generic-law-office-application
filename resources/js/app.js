@@ -19,6 +19,7 @@ import RegisterClient from '../views/RegisterClient'
 import PhonesList from '../views/PhonesList'
 import RegisterPhone from '../views/RegisterPhone'
 import LawsuitsList from '../views/LawsuitsList'
+import RegisterLawsuit from '../views/RegisterLawsuit'
 
 const router = new VueRouter({
 	mode: 'history',
@@ -87,9 +88,19 @@ const router = new VueRouter({
 		},
 	},
 	{
-		path: '/lawsuits',
+		path: '/lawsuits/:id_client',
 		name: 'lawsuits',
 		component: LawsuitsList,
+		props: true,
+		meta: {
+			auth: true
+		},
+	},
+	{
+		path: '/register-lawsuit/:id_lawsuit/:id_client',
+		name: 'register-lawsuit',
+		component: RegisterLawsuit,
+		props: true,
 		meta: {
 			auth: true
 		},

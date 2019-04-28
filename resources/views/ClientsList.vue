@@ -40,6 +40,7 @@
 						{{ cidade }}
 					</td>
 					<td class="text-right">
+						<router-link :to="{ name: 'lawsuits', params: {id_client: id} }" class="btn btn-primary">Processos</router-link>
 						<router-link :to="{ name: 'phones', params: {id_client: id} }" class="btn btn-primary">Contatos</router-link>
 						<router-link :to="{ name: 'register-client', params: {id_client: id} }" class="btn btn-primary">Editar</router-link>
 						<button v-if="$auth.check(Roles.Admin)" @click="deleteClient(id)" class="btn btn-danger">Excluir</button>
@@ -79,7 +80,7 @@
     		data = data.filter(function (row) {
 	          return Object.keys(row).some(function (key) {
 	          	if(filterable.find(filterableItem => filterableItem === key) !== undefined && row[key] !== null){
-		            return String(row[key]).toLowerCase().indexOf(filter) > -1
+		            return String(row[key]).toLowerCase().indexOf(filter.toLowerCase()) > -1
 	          	}
 	          })
 	        })

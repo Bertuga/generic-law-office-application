@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Cliente;
 use App\Telefone;
+use App\Processo;
 
 class SpaController extends Controller
 {
@@ -25,6 +26,11 @@ class SpaController extends Controller
     	return response()->json(Telefone::where(['id_cliente' => $request->route('id_client')])->get());
     }
 
+    public function listLawsuits(Request $request)
+    {
+    	return response()->json(Processo::where(['id_cliente' => $request->route('id_client')])->get());
+    }
+
     public function fetchPhone(Request $request)
     {
     	try {
@@ -34,6 +40,19 @@ class SpaController extends Controller
     		return response([
 				'status' => 'error',
 				'error' => 'Telefone inexistente',
+			], 400);
+    	}
+    }
+
+    public function fetchLawsuit(Request $request)
+    {
+    	try {
+    		return response()->json(Processo::where(['id' => $request->route('id'), 'id_cliente' => $request->route('id_client')])->firstOrFail());
+    	}
+    	catch(\Exception $e) {
+    		return response([
+				'status' => 'error',
+				'error' => 'Processo inexistente',
 			], 400);
     	}
     }
@@ -83,6 +102,24 @@ class SpaController extends Controller
     		return response([
 				'status' => 'error',
 				'error' => 'Telefone inexistente',
+			], 400);
+    	}
+    }
+
+    public function deleteLawsuit(Request $request)
+    {
+    	try {
+    		$processo = Processo::findOrFail($request->input('id'));
+    		$processo->delete();
+    		return response([
+				'status' => 'success',
+				'message' => 'Processo excluído com sucesso',
+			], 200);
+    	}
+    	catch(\Exception $e) {
+    		return response([
+				'status' => 'error',
+				'error' => 'Processo inexistente',
 			], 400);
     	}
     }
@@ -162,6 +199,26 @@ class SpaController extends Controller
 		]);
 		if(!$validation->fails()) {
     		$telefone = Telefone::updateOrCreate(['id' => $request->input('id')], $request->all());
+			return response([
+				'status' => 'success',
+			]);
+		} else {
+			return response([
+				'status' => 'error',
+				'errors' => collect($validation->errors()),
+			], 400);
+		}
+    }
+
+    public function registerLawsuit(Request $request)
+    {
+		$validation = Validator::make($request->all(),[
+			'id' => 'nullable|integer',
+			'id_cliente' => 'integer',
+			'numero' => 'required|string|',
+		]);
+		if(!$validation->fails()) {
+    		$processo = Processo::updateOrCreate(['id' => $request->input('id')], $request->all());
 			return response([
 				'status' => 'success',
 			]);

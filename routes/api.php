@@ -36,4 +36,8 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('fetch-phone/{id}/{id_client}', 'SpaController@fetchPhone');
     Route::post('register-phone', 'SpaController@registerPhone');
     Route::post('delete-phone', 'SpaController@deletePhone');
+    Route::get('list-lawsuits/{id_client}', 'SpaController@listLawsuits');
+    Route::get('fetch-lawsuit/{id}/{id_client}', 'SpaController@fetchLawsuit');
+    Route::post('register-lawsuit', 'SpaController@registerLawsuit');
+    Route::post('delete-lawsuit', 'SpaController@deleteLawsuit');
 });

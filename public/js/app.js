@@ -2973,9 +2973,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3130,6 +3127,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3161,7 +3159,7 @@ __webpack_require__.r(__webpack_exports__);
             if (filterable.find(function (filterableItem) {
               return filterableItem === key;
             }) !== undefined && row[key] !== null) {
-              return String(row[key]).toLowerCase().indexOf(filter) > -1;
+              return String(row[key]).toLowerCase().indexOf(filter.toLowerCase()) > -1;
             }
           });
         });
@@ -3203,13 +3201,90 @@ __webpack_require__.r(__webpack_exports__);
 /*!***************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/LawsuitsList.vue?vue&type=script&lang=js& ***!
   \***************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      carregando: false,
+      id_cliente: null,
+      processos: null,
+      error: this.errorMsg,
+      success: this.successMsg
+    };
+  },
+  created: function created() {
+    this.id_cliente = this.id_client;
+    this.fetchData();
+  },
+  props: ['errorMsg', 'successMsg', 'id_client'],
+  methods: {
+    deleteLawsuit: function deleteLawsuit(id) {
+      var _this = this;
+
+      if (confirm('Deseja realmente excluir esse processo?')) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/delete-lawsuit', {
+          id: id
+        }).then(function (response) {
+          _this.success = response.data.message;
+
+          _this.fetchData();
+        }).catch(function (e) {
+          _this.errorMsg = e.response.data.error;
+        });
+      }
+    },
+    fetchData: function fetchData() {
+      var _this2 = this;
+
+      this.processos = null;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/list-lawsuits/' + this.id_cliente).then(function (response) {
+        _this2.processos = response.data;
+      }).catch(function (e) {
+        _this2.error = "Falha ao carregar registros";
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -3571,6 +3646,96 @@ __webpack_require__.r(__webpack_exports__);
           name: "clients",
           params: {
             successMsg: "Cliente salvo com sucesso."
+          }
+        });
+      }).catch(function (e) {
+        _this2.errors = e.response.data.errors;
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/RegisterLawsuit.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/RegisterLawsuit.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      errors: null,
+      id: null,
+      id_cliente: null,
+      numero: null
+    };
+  },
+  created: function created() {
+    this.id_cliente = this.id_client;
+    this.id = this.id_lawsuit;
+    if (this.id !== undefined) this.fetchLawsuit();
+  },
+  props: ['id_client', 'id_lawsuit'],
+  methods: {
+    fetchLawsuit: function fetchLawsuit() {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/fetch-lawsuit/' + this.id + '/' + this.id_cliente).then(function (response) {
+        _this.numero = response.data.numero;
+      }).catch(function (e) {
+        _this.$router.replace({
+          name: "clients",
+          params: {
+            errorMsg: e.response.data.error
+          }
+        });
+      });
+    },
+    checkForm: function checkForm() {
+      var _this2 = this;
+
+      this.errors = null;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/register-lawsuit', {
+        id: this.id,
+        id_cliente: this.id_cliente,
+        numero: this.numero
+      }).then(function (response) {
+        _this2.$router.replace({
+          name: "lawsuits",
+          params: {
+            id_client: _this2.id_cliente,
+            successMsg: "Processo salvo com sucesso."
           }
         });
       }).catch(function (e) {
@@ -8248,6 +8413,25 @@ exports.push([module.i, "\n.alert > p { margin-bottom: 0px;\n}\n", ""]);
 /*!*********************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/ClientsList.vue?vue&type=style&index=0&lang=css& ***!
   \*********************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.alert > p { margin-bottom: 0px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/LawsuitsList.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/LawsuitsList.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -38966,6 +39150,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/LawsuitsList.vue?vue&type=style&index=0&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/LawsuitsList.vue?vue&type=style&index=0&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../node_modules/css-loader??ref--6-1!../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../node_modules/postcss-loader/src??ref--6-2!../../node_modules/vue-loader/lib??vue-loader-options!./LawsuitsList.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/LawsuitsList.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/PhonesList.vue?vue&type=style&index=0&lang=css&":
 /*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/PhonesList.vue?vue&type=style&index=0&lang=css& ***!
@@ -39660,24 +39874,6 @@ var render = function() {
               "li",
               { staticClass: "nav-item" },
               [
-                _vm.$auth.check()
-                  ? _c(
-                      "router-link",
-                      {
-                        staticClass: "nav-link",
-                        attrs: { to: { name: "lawsuits" } }
-                      },
-                      [_vm._v("Processos")]
-                    )
-                  : _vm._e()
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "li",
-              { staticClass: "nav-item" },
-              [
                 _vm.$auth.check(_vm.Roles.Admin)
                   ? _c(
                       "router-link",
@@ -40011,6 +40207,17 @@ var render = function() {
                       {
                         staticClass: "btn btn-primary",
                         attrs: {
+                          to: { name: "lawsuits", params: { id_client: id } }
+                        }
+                      },
+                      [_vm._v("Processos")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: {
                           to: { name: "phones", params: { id_client: id } }
                         }
                       },
@@ -40099,9 +40306,105 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("LawsuitsList")])
+  return _c("div", [
+    _c(
+      "h2",
+      [
+        _vm._v("Processos "),
+        _c(
+          "router-link",
+          {
+            staticClass: "btn btn-primary float-right",
+            attrs: { to: { name: "register-lawsuit" } }
+          },
+          [_vm._v("+ Processo")]
+        )
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _vm.carregando
+      ? _c("div", { staticClass: "loading" }, [
+          _vm._v("\n\t\t\tCarregando...\n\t\t")
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    this.error
+      ? _c("p", { staticClass: "alert alert-danger" }, [
+          _vm._v("\n            " + _vm._s(this.error) + "\n        ")
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    this.success
+      ? _c("p", { staticClass: "alert alert-success" }, [
+          _vm._v("\n            " + _vm._s(this.success) + "\n        ")
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c("table", { staticClass: "table table-hover table-bordered" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _vm.processos
+        ? _c(
+            "tbody",
+            _vm._l(_vm.processos, function(ref) {
+              var id = ref.id
+              var id_cliente = ref.id_cliente
+              var numero = ref.numero
+              return _c("tr", [
+                _c("td", [_vm._v(_vm._s(numero))]),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  { staticClass: "text-right" },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: {
+                          to: {
+                            name: "register-lawsuit",
+                            params: { id_lawsuit: id, id_client: id_cliente }
+                          }
+                        }
+                      },
+                      [_vm._v("Editar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteLawsuit(id)
+                          }
+                        }
+                      },
+                      [_vm._v("Excluir")]
+                    )
+                  ],
+                  1
+                )
+              ])
+            }),
+            0
+          )
+        : _vm._e()
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-dark" }, [
+      _c("tr", [_c("td", [_vm._v("Número")]), _vm._v(" "), _c("td")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -40881,6 +41184,109 @@ var render = function() {
           ])
         ]),
         _c("br"),
+        _vm._v(" "),
+        _vm._m(0)
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "text-right" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-success", attrs: { type: "submit" } },
+        [_vm._v("Salvar")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/RegisterLawsuit.vue?vue&type=template&id=d6d0887a&":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/views/RegisterLawsuit.vue?vue&type=template&id=d6d0887a& ***!
+  \**********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.errors
+      ? _c(
+          "ul",
+          { staticClass: "alert alert-danger" },
+          [
+            _vm._l(_vm.errors, function(errorList) {
+              return _vm._l(errorList, function(error) {
+                return _c("p", [
+                  _vm._v(
+                    "\n                " + _vm._s(error) + "\n              "
+                  )
+                ])
+              })
+            })
+          ],
+          2
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _c("h2", [_vm._v("Processo")]),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.checkForm($event)
+          }
+        }
+      },
+      [
+        _c("h3", [_vm._v("Dados")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-row" }, [
+          _c("div", { staticClass: "form-group col-md-6" }, [
+            _c("label", { attrs: { for: "numero" } }, [_vm._v("Número:")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.numero,
+                  expression: "numero"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", id: "numero" },
+              domProps: { value: _vm.numero },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.numero = $event.target.value
+                }
+              }
+            })
+          ])
+        ]),
         _vm._v(" "),
         _vm._m(0)
       ]
@@ -56036,6 +56442,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_PhonesList__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../views/PhonesList */ "./resources/views/PhonesList.vue");
 /* harmony import */ var _views_RegisterPhone__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../views/RegisterPhone */ "./resources/views/RegisterPhone.vue");
 /* harmony import */ var _views_LawsuitsList__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../views/LawsuitsList */ "./resources/views/LawsuitsList.vue");
+/* harmony import */ var _views_RegisterLawsuit__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../views/RegisterLawsuit */ "./resources/views/RegisterLawsuit.vue");
 
 
 
@@ -56044,6 +56451,7 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_axios__WEBPACK_IMPORTED_MODULE_4___default.a, axios__WEBPACK_IMPORTED_MODULE_3___default.a);
 axios__WEBPACK_IMPORTED_MODULE_3___default.a.default.baseURL = 'http://localhost:8000/api';
+
 
 
 
@@ -56116,9 +56524,18 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
       auth: true
     }
   }, {
-    path: '/lawsuits',
+    path: '/lawsuits/:id_client',
     name: 'lawsuits',
     component: _views_LawsuitsList__WEBPACK_IMPORTED_MODULE_14__["default"],
+    props: true,
+    meta: {
+      auth: true
+    }
+  }, {
+    path: '/register-lawsuit/:id_lawsuit/:id_client',
+    name: 'register-lawsuit',
+    component: _views_RegisterLawsuit__WEBPACK_IMPORTED_MODULE_15__["default"],
+    props: true,
     meta: {
       auth: true
     }
@@ -56427,7 +56844,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _LawsuitsList_vue_vue_type_template_id_8aaeb88a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LawsuitsList.vue?vue&type=template&id=8aaeb88a& */ "./resources/views/LawsuitsList.vue?vue&type=template&id=8aaeb88a&");
 /* harmony import */ var _LawsuitsList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LawsuitsList.vue?vue&type=script&lang=js& */ "./resources/views/LawsuitsList.vue?vue&type=script&lang=js&");
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _LawsuitsList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _LawsuitsList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _LawsuitsList_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LawsuitsList.vue?vue&type=style&index=0&lang=css& */ "./resources/views/LawsuitsList.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -56435,7 +56854,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _LawsuitsList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _LawsuitsList_vue_vue_type_template_id_8aaeb88a___WEBPACK_IMPORTED_MODULE_0__["render"],
   _LawsuitsList_vue_vue_type_template_id_8aaeb88a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -56463,9 +56882,23 @@ component.options.__file = "resources/views/LawsuitsList.vue"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LawsuitsList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib??ref--4-0!../../node_modules/vue-loader/lib??vue-loader-options!./LawsuitsList.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/LawsuitsList.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LawsuitsList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LawsuitsList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LawsuitsList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LawsuitsList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LawsuitsList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default.a); 
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LawsuitsList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/views/LawsuitsList.vue?vue&type=style&index=0&lang=css&":
+/*!***************************************************************************!*\
+  !*** ./resources/views/LawsuitsList.vue?vue&type=style&index=0&lang=css& ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LawsuitsList_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/style-loader!../../node_modules/css-loader??ref--6-1!../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../node_modules/postcss-loader/src??ref--6-2!../../node_modules/vue-loader/lib??vue-loader-options!./LawsuitsList.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/LawsuitsList.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LawsuitsList_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LawsuitsList_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LawsuitsList_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LawsuitsList_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LawsuitsList_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -56707,6 +57140,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegisterClient_vue_vue_type_template_id_581a6732___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegisterClient_vue_vue_type_template_id_581a6732___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/views/RegisterLawsuit.vue":
+/*!*********************************************!*\
+  !*** ./resources/views/RegisterLawsuit.vue ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _RegisterLawsuit_vue_vue_type_template_id_d6d0887a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RegisterLawsuit.vue?vue&type=template&id=d6d0887a& */ "./resources/views/RegisterLawsuit.vue?vue&type=template&id=d6d0887a&");
+/* harmony import */ var _RegisterLawsuit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RegisterLawsuit.vue?vue&type=script&lang=js& */ "./resources/views/RegisterLawsuit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _RegisterLawsuit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _RegisterLawsuit_vue_vue_type_template_id_d6d0887a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _RegisterLawsuit_vue_vue_type_template_id_d6d0887a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/views/RegisterLawsuit.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/views/RegisterLawsuit.vue?vue&type=script&lang=js&":
+/*!**********************************************************************!*\
+  !*** ./resources/views/RegisterLawsuit.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RegisterLawsuit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib??ref--4-0!../../node_modules/vue-loader/lib??vue-loader-options!./RegisterLawsuit.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/RegisterLawsuit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RegisterLawsuit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/views/RegisterLawsuit.vue?vue&type=template&id=d6d0887a&":
+/*!****************************************************************************!*\
+  !*** ./resources/views/RegisterLawsuit.vue?vue&type=template&id=d6d0887a& ***!
+  \****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegisterLawsuit_vue_vue_type_template_id_d6d0887a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../node_modules/vue-loader/lib??vue-loader-options!./RegisterLawsuit.vue?vue&type=template&id=d6d0887a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/views/RegisterLawsuit.vue?vue&type=template&id=d6d0887a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegisterLawsuit_vue_vue_type_template_id_d6d0887a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegisterLawsuit_vue_vue_type_template_id_d6d0887a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
