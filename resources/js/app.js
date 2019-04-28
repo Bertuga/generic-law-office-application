@@ -11,7 +11,6 @@ axios.default.baseURL = 'http://localhost:8000/api'
 
 import { Roles } from './roles.js'
 import App from './App.vue'
-import Home from '../views/Home'
 import Login from '../views/Login'
 import ChangePassword from '../views/ChangePassword'
 import RegisterUser from '../views/RegisterUser'
@@ -25,22 +24,14 @@ const router = new VueRouter({
 	mode: 'history',
 	routes: [{
 		path: '/',
-		redirect: '/home'
+		redirect: '/clients'
 	},{
 		path: '/login',
 		name: 'login',
 		component: Login,
 		meta: {
 			auth: false,
-			notFoundRedirect: '/home',
-		},
-	},
-	{
-		path: '/home',
-		name: 'home',
-		component: Home,
-		meta: {
-			auth: true
+			notFoundRedirect: '/clients',
 		},
 	},
 	{

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use App\Cliente;
 use App\Telefone;
 
@@ -126,7 +127,7 @@ class SpaController extends Controller
 						}
 					}
 				},
-				'unique:clientes'
+				 Rule::unique('clientes')->ignore($request->input('id')),
 			],
 			'endereco' => 'required|string',
 			'numero' => 'required|string',
@@ -134,7 +135,9 @@ class SpaController extends Controller
 			'cidade' => 'required|string',
 			'estado' => 'required|string|size:2',
 			'cep' => 'required|string|size:9',
-			'email' => 'nullable|email|string'
+			'email' => 'nullable|email|string',
+			'pis' => 'nullable|string',
+			'ct' => 'nullable|string'
 		]);
 		if(!$validation->fails()) {
     		$cliente = Cliente::updateOrCreate(['id' => $request->input('id')], $request->all());

@@ -8,13 +8,10 @@
 		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		    <ul class="navbar-nav mr-auto">
 		      <li class="nav-item">
-		        <router-link :to="{ name: 'home' }" v-if="$auth.check()" class="nav-link">Home</router-link>
+		        <router-link :to="{ name: 'clients' }" v-if="$auth.check()" class="nav-link">Clientes</router-link>
 		      </li>
 		      <li class="nav-item">
 		        <router-link :to="{ name: 'change-password' }" v-if="$auth.check()" class="nav-link">Alterar Senha</router-link>
-		      </li>
-		      <li class="nav-item">
-		        <router-link :to="{ name: 'clients' }" v-if="$auth.check()" class="nav-link">Clientes</router-link>
 		      </li>
 		      <li class="nav-item">
 		        <router-link :to="{ name: 'lawsuits' }" v-if="$auth.check()" class="nav-link">Processos</router-link>

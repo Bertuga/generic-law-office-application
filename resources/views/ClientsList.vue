@@ -11,9 +11,11 @@
             {{ this.success }}
         </p>
 
-		<form id="search">
-			Search <input @input="filter()" v-model="busca">
-		</form>
+		<form id="search" class="form-inline">
+			<div class="form-group">
+				<input type="text" class="form-control" @input="filter()" v-model="busca" placeholder="Filtrar...">
+			</div>
+		</form><br>
 
         <table class="table table-hover table-bordered">
 			<thead class="thead-dark">
@@ -22,7 +24,7 @@
 					<td>RG</td>
 					<td>Data de Nascimento</td>
 					<td>CPF</td>
-					<td>Cidade</td>
+					<td>Endereço</td>
 					<td></td>
 				</tr>
 			</thead>

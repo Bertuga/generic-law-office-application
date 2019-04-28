@@ -31,6 +31,14 @@
 					<label for="cpf">CPF:</label>
 					<input type="text" class="form-control" id="cpf" v-model="cpf" required v-mask="'###.###.###-##'">
 				</div>
+				<div class="form-group col-md-6">
+					<label for="pis">PIS:</label>
+					<input type="text" class="form-control" id="pis" v-model="pis">
+				</div>
+				<div class="form-group col-md-6">
+					<label for="ct">Carteira de trabalho:</label>
+					<input type="text" class="form-control" id="ct" v-model="ct">
+				</div>
 			</div>
 			<h3>Endereço</h3>
 			<div class="form-row">
@@ -119,6 +127,8 @@
 		estado: null,
 		cep: null,
 		email: null,
+		pis: null,
+		ct: null,
       }
     },
     created() {
@@ -144,6 +154,8 @@
 				this.estado = response.data.estado;
 				this.cep = response.data.cep;
 				this.email = response.data.email;
+				this.pis = response.data.pis;
+				this.ct = response.data.ct;
 	        })
 	        .catch(e => {
 	        	this.$router.replace({ name: "clients", params:{errorMsg: e.response.data.error}});
@@ -166,6 +178,8 @@
 				estado: this.estado,
 				cep: this.cep,
 				email: this.email,
+				pis: this.pis,
+				ct: this.ct,
 	        })
 	        .then(response => {
 	        	this.$router.replace({ name: "clients", params:{successMsg: "Cliente salvo com sucesso."}});

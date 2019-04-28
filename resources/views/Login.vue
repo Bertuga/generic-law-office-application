@@ -41,7 +41,7 @@
             	this.error = true;
             },
             rememberMe: true,
-            redirect: '/home',
+            redirect: '/clients',
             fetchUser: true,
         });       
       },
