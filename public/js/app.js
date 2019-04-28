@@ -3123,6 +3123,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3130,7 +3138,10 @@ __webpack_require__.r(__webpack_exports__);
     return {
       Roles: _js_roles_js__WEBPACK_IMPORTED_MODULE_1__["Roles"],
       carregando: false,
+      busca: '',
       clientes: null,
+      clientesFiltered: null,
+      filterable: ['nome', 'rg', 'nascimento', 'cpf', 'endereco', 'numero', 'complemento', 'bairro', 'cidade'],
       error: this.errorMsg,
       success: this.successMsg
     };
@@ -3140,6 +3151,25 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: ['errorMsg', 'successMsg'],
   methods: {
+    filter: function filter() {
+      var data = this.clientes;
+      var filter = this.busca;
+      var filterable = this.filterable;
+
+      if (filter !== '') {
+        data = data.filter(function (row) {
+          return Object.keys(row).some(function (key) {
+            if (filterable.find(function (filterableItem) {
+              return filterableItem === key;
+            }) !== undefined && row[key] !== null) {
+              return String(row[key]).toLowerCase().indexOf(filter) > -1;
+            }
+          });
+        });
+      }
+
+      this.clientesFiltered = data;
+    },
     deleteClient: function deleteClient(id) {
       var _this = this;
 
@@ -3160,7 +3190,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.clientes = null;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('api/list-clients').then(function (response) {
-        _this2.clientes = response.data;
+        _this2.clientes = _this2.clientesFiltered = response.data;
       }).catch(function (e) {
         _this2.error = "Falha ao carregar registros";
       });
@@ -39917,18 +39947,50 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
+    _c("form", { attrs: { id: "search" } }, [
+      _vm._v("\n\t\t\tSearch "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.busca,
+            expression: "busca"
+          }
+        ],
+        domProps: { value: _vm.busca },
+        on: {
+          input: [
+            function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.busca = $event.target.value
+            },
+            function($event) {
+              return _vm.filter()
+            }
+          ]
+        }
+      })
+    ]),
+    _vm._v(" "),
     _c("table", { staticClass: "table table-hover table-bordered" }, [
       _vm._m(0),
       _vm._v(" "),
       _vm.clientes
         ? _c(
             "tbody",
-            _vm._l(_vm.clientes, function(ref) {
+            _vm._l(_vm.clientesFiltered, function(ref) {
               var id = ref.id
               var nome = ref.nome
               var rg = ref.rg
               var nascimento = ref.nascimento
               var cpf = ref.cpf
+              var endereco = ref.endereco
+              var numero = ref.numero
+              var complemento = ref.complemento
+              var bairro = ref.bairro
               var cidade = ref.cidade
               return _c("tr", [
                 _c("td", [_vm._v(_vm._s(nome))]),
@@ -39939,7 +40001,21 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", [_vm._v(_vm._s(cpf))]),
                 _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(cidade))]),
+                _c("td", [
+                  _vm._v(
+                    "\n\t\t\t\t\t\t" +
+                      _vm._s(endereco) +
+                      ", " +
+                      _vm._s(numero) +
+                      " " +
+                      _vm._s(complemento) +
+                      "\n\t\t\t\t\t\t" +
+                      _vm._s(bairro) +
+                      "\n\t\t\t\t\t\t" +
+                      _vm._s(cidade) +
+                      "\n\t\t\t\t\t"
+                  )
+                ]),
                 _vm._v(" "),
                 _c(
                   "td",

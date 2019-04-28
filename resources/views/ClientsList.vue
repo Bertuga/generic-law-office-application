@@ -11,6 +11,10 @@
             {{ this.success }}
         </p>
 
+		<form id="search">
+			Search <input @input="filter()" v-model="busca">
+		</form>
+
         <table class="table table-hover table-bordered">
 			<thead class="thead-dark">
 				<tr>
@@ -23,12 +27,16 @@
 				</tr>
 			</thead>
 			<tbody v-if="clientes">
-				<tr v-for="{ id, nome, rg, nascimento, cpf, cidade } in clientes">
+				<tr v-for="{ id, nome, rg, nascimento, cpf, endereco, numero, complemento, bairro, cidade } in clientesFiltered">
 					<td>{{ nome }}</td>
 					<td>{{ rg }}</td>
 					<td>{{ nascimento }}</td>
 					<td>{{ cpf }}</td>
-					<td>{{ cidade }}</td>
+					<td>
+						{{ endereco }}, {{ numero }} {{ complemento }}
+						{{ bairro }}
+						{{ cidade }}
+					</td>
 					<td class="text-right">
 						<router-link :to="{ name: 'phones', params: {id_client: id} }" class="btn btn-primary">Contatos</router-link>
 						<router-link :to="{ name: 'register-client', params: {id_client: id} }" class="btn btn-primary">Editar</router-link>
@@ -48,7 +56,10 @@
       return {
       	Roles: Roles,
         carregando: false,
+        busca: '',
         clientes: null,
+        clientesFiltered: null,
+    	filterable: ['nome', 'rg', 'nascimento', 'cpf', 'endereco', 'numero', 'complemento', 'bairro', 'cidade'],
         error: this.errorMsg,
         success: this.successMsg
       }
@@ -58,6 +69,21 @@
     },
     props: ['errorMsg', 'successMsg'],
     methods: {
+      filter() {
+      	let data = this.clientes
+      	let filter = this.busca
+      	let filterable = this.filterable
+		if(filter !== '') {
+    		data = data.filter(function (row) {
+	          return Object.keys(row).some(function (key) {
+	          	if(filterable.find(filterableItem => filterableItem === key) !== undefined && row[key] !== null){
+		            return String(row[key]).toLowerCase().indexOf(filter) > -1
+	          	}
+	          })
+	        })
+		}
+		this.clientesFiltered = data;
+      },
       deleteClient(id) {
       	if(confirm('Deseja realmente excluir esse cliente?') && confirm('Isso vai excluir dados de contato e processos. Deseja realmente continuar?')) {
       		axios
@@ -76,7 +102,7 @@
         axios
 	        .get('api/list-clients')
 	        .then(response => {
-	        	this.clientes = response.data;
+	        	this.clientes = this.clientesFiltered =response.data;
 	        })
 	        .catch(e => {
 	          this.error = "Falha ao carregar registros";
